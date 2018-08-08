@@ -1,0 +1,4 @@
+- hosts: node1, node2, node3, node4
+  tasks:
+  - debug:
+      msg: "System {{ inventory_hostname }} has uuid {{ ansible_product_uuid }}"
