@@ -2,7 +2,7 @@ Vagrant.configure("2") do |config|
 
     (1..4).each do |i|
         config.vm.define "node-#{i}" do |node|
-            node.vm.box = "debian/jessie64"
+            node.vm.box = "ubuntu/xenial64"
             node.vm.network "private_network", ip: "192.168.50.#{i}",
                 virtualbox__intnet: "mynetwork"
             
