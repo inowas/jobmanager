@@ -1,0 +1,38 @@
+- name: install required packages
+  apt:
+    update_cache: yes
+    force: yes
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - software-properties-common
+
+- name: Import repository key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: add apt repository
+  apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable"
+    filename: "bintray.rabbitmq"
+    update_cache: yes
+    state: present
+
+- name: install required packages
+  apt:    
+    name: "docker-ce=18.03.0~ce-0~ubuntu"
+    update_cache: yes
+    force: yes
+    state: present
+  
+- name: Add specific users to "docker" group
+  user:
+    name: "{{ item }}"
+    groups: "docker"
+    append: True
+  with_items: 
+    - vagrant
