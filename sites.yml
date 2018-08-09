@@ -5,6 +5,9 @@
   tasks:
   - name: install python 2
     raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
-  - import_role:
-      name: docker
 
+# Install docker role on all hosts
+- hosts: all 
+  tasks:
+    - import_role:
+        name: docker
