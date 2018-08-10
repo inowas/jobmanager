@@ -1,0 +1,8 @@
+- name: Ensure rabbitmq container is started
+  docker_container:
+    name: rabbitmq
+    image: rabbitmq:3.7-management
+    hostname: my-rabbit
+    ports:
+    - 15672:15672
+    - 5672:5672

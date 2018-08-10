@@ -3,8 +3,7 @@ Vagrant.configure("2") do |config|
     (1..4).each do |i|
         config.vm.define "node-#{i}" do |node|
             node.vm.box = "ubuntu/xenial64"
-            node.vm.network "private_network", ip: "192.168.50.#{i}",
-                virtualbox__intnet: "mynetwork"
+            node.vm.network "public_network", bridge: "en0: WLAN (AirPort)"
             
             node.ssh.insert_key = false
             node.ssh.private_key_path = ["~/.ssh/id_rsa", "~/.vagrant.d/insecure_private_key"]

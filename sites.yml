@@ -1,13 +1,17 @@
-# TODO: This is just a quick win for operating with vagrant - evaluate if it should be used on production
 - hosts: all
   gather_facts: False
   
   tasks:
-  - name: install python 2
+  - name: Ensure python 3 is installed on all hosts
     raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
 
-# Install docker role on all hosts
 - hosts: all 
   tasks:
     - import_role:
         name: docker
+
+- hosts: node1
+  tasks:
+    - import_role:
+        name: rabbitmq
+      tags: rabbitmq

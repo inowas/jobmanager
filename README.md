@@ -19,7 +19,9 @@ For development one can use vagrant vm's. In this way we can easily delete vm's 
 vagrant up
 ```
 
-> NOTE: You need to write down the published ssh ports for the single nodes, because you later use them in your ansible inventory file.
+> NOTE: You need to get the ip adresses for every vm, to use it later on your ansible deployment. You can do this with the following steps for every vm:
+> 1. SSH into one of the machines with: ```vagrant ssh node-1```
+> 1. Retrieve the ip with the command: ```ifconfig```
 
 ### Run ansible script
 
@@ -27,4 +29,4 @@ vagrant up
 ansible-playbook -i inventory sites.yml
 ```
 
-> NOTE: You need to replace the ports you wrote down on vagrant provisioning in the inventory file.
+> NOTE: You need to replace the ip's in the inventory with the ip's you wrote down on vagrant provisioning.
