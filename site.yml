@@ -1,9 +1,8 @@
 - hosts: node1
   gather_facts: False
-  
   tasks:
-  - name: Ensure python 3 is installed on all hosts
-    raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+    - import_role:
+        name: python2
 
 - hosts: node1 
   tasks:

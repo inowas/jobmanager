@@ -2,3 +2,4 @@
 .vscode/
 sites.retry
 *.log
+tests.retry

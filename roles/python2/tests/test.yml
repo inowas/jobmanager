@@ -1,0 +1,6 @@
+- hosts: vagrant
+  gather_facts: False
+
+  tasks:
+    - import_role:
+        name: python2
