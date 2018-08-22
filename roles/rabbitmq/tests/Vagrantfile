@@ -1,0 +1,12 @@
+Vagrant.configure("2") do |config|
+  vagrant_root = File.dirname(__FILE__)
+  ENV['ANSIBLE_ROLES_PATH'] = "#{vagrant_root}/../../"
+  config.vm.define "vagrant"
+  config.vm.box = "ubuntu/xenial64"
+
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = "test.yml"
+    ansible.become = true
+  end
+
+end

@@ -1,0 +1,13 @@
+- hosts: vagrant
+  gather_facts: False
+  tasks:
+    - import_role:
+        name: python2
+
+- hosts: vagrant
+  tasks:
+    - import_role:
+        name: docker
+        
+    - import_role:
+        name: rabbitmq
