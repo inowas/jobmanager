@@ -1,2 +1,2 @@
-- name: Ensure python is installed on all hosts
+- name: Ensure python 2 is installed on all hosts
   raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
