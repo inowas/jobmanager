@@ -2,3 +2,5 @@
   tasks:        
     - import_role:
         name: prometheus
+    - import_role:
+        name: rabbitmq

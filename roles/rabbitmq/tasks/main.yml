@@ -1,6 +1,22 @@
+- name: Ensure rabbitmq start script is copied to host
+  template:
+    src: start.sh
+    dest: /tmp/start.sh
+
+- name: Create jobmanager network
+  docker_network:
+    name: jobmanager_network
+
 - name: Ensure rabbitmq container is started
   docker_container:
     name: rabbitmq
-    image: rabbitmq:3.7-management
-    hostname: "{{hostname}}"
+    image: deadtrickster/rabbitmq_prometheus
+    hostname: "{{ hostname }}"
     ports: "{{ port_list }}"
+    volumes:
+      - /tmp/start.sh:/start.sh
+    networks:
+      - name: jobmanager_network
+    state: started
+    recreate: yes
+    command: /start.sh

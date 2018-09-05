@@ -3,6 +3,10 @@
     src=prometheus.yml.j2
     dest=/tmp/prometheus.yml
 
+- name: Create jobmanager network
+  docker_network:
+    name: jobmanager_network
+
 - name: Ensure prometheus server container is started
   docker_container:
     name: prometheus-server
@@ -10,3 +14,7 @@
     ports: "{{ port_list }}"
     volumes:
       - /tmp/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - name: jobmanager_network
+    state: started
+    recreate: yes
