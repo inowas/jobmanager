@@ -1,0 +1,12 @@
+- name: Ensure prometheus server configuration is copied to host
+  template:
+    src=prometheus.yml.j2
+    dest=/tmp/prometheus.yml
+
+- name: Ensure prometheus server container is started
+  docker_container:
+    name: prometheus-server
+    image: prom/prometheus
+    ports: "{{ port_list }}"
+    volumes:
+      - /tmp/prometheus.yml:/etc/prometheus/prometheus.yml

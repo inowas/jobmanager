@@ -1,6 +1,6 @@
 Vagrant.configure("2") do |config|
 
-    (1..4).each do |i|
+    (1..1).each do |i|
         config.vm.define "node-#{i}" do |node|
             node.vm.box = "ubuntu/xenial64"
             node.vm.network "public_network", bridge: "en0: WLAN (AirPort)"
@@ -12,6 +12,11 @@ Vagrant.configure("2") do |config|
                 sudo sed -i -e "\\#PasswordAuthentication yes# s#PasswordAuthentication yes#PasswordAuthentication no#g" /etc/ssh/sshd_config
                 sudo service ssh restart
             EOC
+
+            config.vm.provision "ansible" do |ansible|
+                ansible.playbook = "test.yml"
+                ansible.become = true
+            end
         end
     end
 end

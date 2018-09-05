@@ -1,0 +1,4 @@
+- hosts: node-1
+  tasks:        
+    - import_role:
+        name: prometheus

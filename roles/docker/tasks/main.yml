@@ -37,7 +37,7 @@
   with_items: 
     - vagrant
   
-- name: Ensure pythin-pip is installed
+- name: Ensure python-pip is installed
   apt:
     name: python-pip
     state: present
