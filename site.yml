@@ -1,0 +1,21 @@
+- hosts: all
+  gather_facts: False
+  tasks:
+    - import_role:
+        name: python2
+
+- hosts: jobmanager
+  tasks: 
+    - include_vars:
+        file: credentials.yml
+    - import_role:
+        name: docker
+    - import_role:
+        name: monitoring
+    - import_role:
+        name: rabbitmq
+    - pause:
+        seconds: 20
+    - import_role:
+        name: rabbitmq-test
+

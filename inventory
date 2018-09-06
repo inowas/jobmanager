@@ -1,4 +1,4 @@
-node1 ansible_host=192.168.43.113 ansible_ssh_user=vagrant  
-node2 ansible_host=192.168.178.28 ansible_ssh_user=vagrant  
-node3 ansible_host=192.168.178.29 ansible_ssh_user=vagrant 
-node4 ansible_host=192.168.178.30 ansible_ssh_user=vagrant 
+jobmanager ansible_host=172.22.1.233 ansible_ssh_user=root
+worker_1 ansible_host=172.22.1.236 ansible_ssh_user=root
+worker_2 ansible_host=172.22.1.172 ansible_ssh_user=root
+worker_3 ansible_host=172.22.1.161 ansible_ssh_user=root

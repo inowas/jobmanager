@@ -1,23 +1,21 @@
 Vagrant.configure("2") do |config|
 
-    (1..1).each do |i|
-        config.vm.define "node-#{i}" do |node|
-            node.vm.box = "ubuntu/xenial64"
-            node.vm.network "public_network", bridge: "en0: WLAN (AirPort)"
-            
-            node.ssh.insert_key = false
-            node.ssh.private_key_path = ["~/.ssh/id_rsa", "~/.vagrant.d/insecure_private_key"]
-            node.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "~/.ssh/authorized_keys"
-            node.vm.provision "shell", inline: <<-EOC
-                sudo sed -i -e "\\#PasswordAuthentication yes# s#PasswordAuthentication yes#PasswordAuthentication no#g" /etc/ssh/sshd_config
-                sudo service ssh restart
-            EOC
+    config.vm.define "jobmanager" do |jobmanager|
+        jobmanager.vm.box = "ubuntu/xenial64"
+        jobmanager.vm.network "public_network", bridge: "en0: WLAN (AirPort)"
+        
+        jobmanager.ssh.insert_key = false
+        jobmanager.ssh.private_key_path = ["~/.ssh/id_rsa", "~/.vagrant.d/insecure_private_key"]
+        jobmanager.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "~/.ssh/authorized_keys"
+        jobmanager.vm.provision "shell", inline: <<-EOC
+            sudo sed -i -e "\\#PasswordAuthentication yes# s#PasswordAuthentication yes#PasswordAuthentication no#g" /etc/ssh/sshd_config
+            sudo service ssh restart
+        EOC
 
-            config.vm.provision "ansible" do |ansible|
-                ansible.playbook = "test.yml"
-                ansible.become = true
-                ansible.vault_password_file = "credentials.vault"
-            end
+        config.vm.provision "ansible" do |ansible|
+            ansible.playbook = "site.yml"
+            ansible.become = true
+            ansible.vault_password_file = "credentials.vault"
         end
     end
 end
