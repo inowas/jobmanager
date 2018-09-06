@@ -7,11 +7,11 @@
   docker_network:
     name: jobmanager_network
 
-- name: Ensure prometheus server container is started
+- name: Ensure prometheus container is started
   docker_container:
-    name: prometheus-server
+    name: prometheus
     image: prom/prometheus
-    ports: "{{ port_list }}"
+    ports: "{{ prometheus_port_list }}"
     volumes:
       - /tmp/prometheus.yml:/etc/prometheus/prometheus.yml
     networks:

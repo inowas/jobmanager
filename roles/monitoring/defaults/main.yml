@@ -1,0 +1,4 @@
+prometheus_port_list:
+    - 9090:9090
+grafana_port_list:
+    - 3000:3000

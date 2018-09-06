@@ -1,0 +1,7 @@
+- include: prometheus.yml
+  tags:
+  - prometheus
+
+- include: grafana.yml
+  tags:
+  - grafana
