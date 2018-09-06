@@ -8,6 +8,7 @@
   tasks: 
     - include_vars:
         file: credentials.yml
+      tags: always
     - import_role:
         name: docker
     - import_role:
@@ -21,4 +22,3 @@
     - import_role:
         name: rabbitmq-test
       tags: rabbitmq-test
-
