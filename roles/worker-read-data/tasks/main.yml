@@ -1,0 +1,17 @@
+- name: Ensure read data worker containers are started
+  docker_container:
+    name: "worker-read-data-{{ item }}"
+    image: inowas/pymodelling
+    state: started
+    restart: yes
+    volumes:
+      - worker_data:/data
+    env:
+      RABBITMQ_HOST: "{{ rabbitmq_host }}"
+      RABBITMQ_PORT: "{{ rabbitmq_port }}"
+      RABBITMQ_VIRTUAL_HOST: "{{ rabbitmq_vhost }}"
+      RABBITMQ_USER: "{{ rabbitmq_user }}"
+      RABBITMQ_PASSWORD: "{{ rabbitmq_password }}"
+      READ_DATA_QUEUE: rpc_flopy_read_data_queue
+    command: python -u /pymodelling/inowas.flopy.read_data.rpc.server.py /data
+  with_sequence: count=5

@@ -27,4 +27,6 @@
   tasks: 
   - import_role:
       name: worker-calculation
+  - import_role:
+      name: worker-read-data
 
