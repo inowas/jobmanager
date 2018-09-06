@@ -1,24 +1,25 @@
 - hosts: all
   gather_facts: False
   tasks:
-    - import_role:
-        name: python2
+  - import_role:
+      name: python2
 
 - hosts: jobmanager
   tasks: 
-    - include_vars:
-        file: credentials.yml
-      tags: always
-    - import_role:
-        name: docker
-    - import_role:
-        name: monitoring
-      tags: monitoring
-    - import_role:
-        name: rabbitmq
-      tags: rabbitmq
-    - pause:
-        seconds: 20
-    - import_role:
-        name: rabbitmq-test
-      tags: rabbitmq-test
+  - include_vars:
+      file: credentials.yml
+    tags: always
+  - import_role:
+      name: docker
+  - import_role:
+      name: monitoring
+    tags: monitoring
+  - import_role:
+      name: rabbitmq
+    tags: rabbitmq
+  - pause:
+      seconds: 20
+  - import_role:
+      name: rabbitmq-test
+    tags: rabbitmq-test
+  
