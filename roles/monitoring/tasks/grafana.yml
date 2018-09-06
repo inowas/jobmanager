@@ -13,4 +13,4 @@
     networks:
       - name: jobmanager_network
     state: started
-    restart: yes
+    recreate: yes

@@ -1,9 +1,15 @@
-- name: Ensure calculation worker container is started
+- name: Ensure that worker_data volume is present
+  docker_volume:
+    name: worker_data
+
+- name: Ensure calculation worker containers are started
   docker_container:
-    name: "modflow-calculation-{{ item }}"
+    name: "worker-calculation-{{ item }}"
     image: inowas/pymodelling
     state: started
-    recreate: yes
+    restart: yes
+    volumes:
+    - worker_data:/data
     env:
       RABBITMQ_HOST: "{{ rabbitmq_host }}"
       RABBITMQ_PORT: "{{ rabbitmq_port }}"
@@ -13,4 +19,4 @@
       CALCULATION_QUEUE: flopy_calculation_queue
       CALCULATION_FINISHED_QUEUE: flopy_calculation_finished_queue
     command: python -u /pymodelling/inowas.flopy.calculation.server.py /data
-  with_sequence: count=4
+  with_sequence: count=5
