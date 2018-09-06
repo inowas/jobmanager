@@ -15,7 +15,7 @@ rabbitmqctl set_permissions -p / backend ".*" ".*" ".*"
 # TODO: Remove this, its there for migrations reasons
 rabbitmqctl add_user inowas_user inowas_password
 rabbitmqctl add_vhost inowas_host
-rabbitmqctl set_permissions -p inowas_host worker ".*" ".*" ".*"
+rabbitmqctl set_permissions -p inowas_host inowas_user ".*" ".*" ".*"
 rabbitmqctl set_user_tags inowas_user administrator
 
 ) &
