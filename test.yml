@@ -1,6 +1,16 @@
 - hosts: node-1
-  tasks:        
+  gather_facts: False
+  tasks:
+    - import_role:
+        name: python2
+
+- hosts: node-1
+  tasks: 
+    - import_role:
+        name: docker   
     - import_role:
         name: prometheus
     - import_role:
-        name: rabbitmq
+        name: rabbitmq    
+    - import_role:
+        name: rabbitmq-test

@@ -5,11 +5,11 @@ import time
 from time import sleep
 from threading import Thread
 
-RABBITMQ_HOST = '192.168.178.36'
-PAYLOAD = "{payload}"
+RABBITMQ_HOST = 'rabbitmq'
+PAYLOAD = '{"payload":"payload"}'
 
 def start_worker_thread():
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host=RABBITMQ_HOST))
+    connection = pika.BlockingConnection(pika.ConnectionParameters(host=RABBITMQ_HOST, credentials=pika.credentials.PlainCredentials(username="admin", password="admin")))
     channel = connection.channel()
 
     channel.queue_declare(queue='task_queue', durable=True)
@@ -35,7 +35,7 @@ if __name__ == "__main__":
 
     sleep(1)
 
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host=RABBITMQ_HOST))
+    connection = pika.BlockingConnection(pika.ConnectionParameters(host=RABBITMQ_HOST, credentials=pika.credentials.PlainCredentials(username="admin", password="admin")))
     channel = connection.channel()
 
     channel.queue_declare(queue='task_queue', durable=True)

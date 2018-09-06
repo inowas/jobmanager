@@ -4,11 +4,11 @@ import uuid
 from threading import Thread
 from time import sleep
 
-RABBITMQ_HOST = '192.168.178.36'
-PAYLOAD = "{payload}"
+RABBITMQ_HOST = 'rabbitmq'
+PAYLOAD = '{"payload":"payload"}'
 
 def start_server_thread():
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host=RABBITMQ_HOST))
+    connection = pika.BlockingConnection(pika.ConnectionParameters(host=RABBITMQ_HOST, credentials=pika.credentials.PlainCredentials(username="admin", password="admin")))
     channel = connection.channel()
     channel.queue_declare(queue='rpc_queue')
 
@@ -31,7 +31,7 @@ def start_server_thread():
 
 class RpcClient(object):
     def __init__(self):
-        self.connection = pika.BlockingConnection(pika.ConnectionParameters(host=RABBITMQ_HOST))
+        self.connection = pika.BlockingConnection(pika.ConnectionParameters(host=RABBITMQ_HOST, credentials=pika.credentials.PlainCredentials(username="admin", password="admin")))
         self.channel = self.connection.channel()
         result = self.channel.queue_declare(exclusive=True)
         self.callback_queue = result.method.queue

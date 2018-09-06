@@ -1,0 +1,28 @@
+- name: Copy files for test image to remote
+  copy:
+    src: ./
+    dest: /tmp/testimage
+
+- name: Build the test image
+  docker_image:
+    path: /tmp/testimage
+    name: testimage
+
+- name: Run test image (Competing Consumers)
+  docker_container:
+    name: testimage_cc
+    image: testimage
+    networks:
+      - name: jobmanager_network
+    command: test_script_cc.py
+
+- name: Run test image (Remote Procedure Call)
+  docker_container:
+    name: testimage_rpc
+    image: testimage
+    networks:
+      - name: jobmanager_network
+    command: test_script_rpc.py
+    recreate: yes
+    detach: no
+    interactive: yes

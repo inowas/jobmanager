@@ -1,6 +1,5 @@
 .vagrant/
 .vscode/
 .idea/
-sites.retry
 *.log
-tests.retry
+*.retry
