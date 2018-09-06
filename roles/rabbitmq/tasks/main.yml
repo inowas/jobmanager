@@ -2,6 +2,7 @@
   template:
     src: start.sh
     dest: /tmp/start.sh
+    mode: u+x
 
 - name: Create jobmanager network
   docker_network:
