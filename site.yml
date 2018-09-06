@@ -3,14 +3,14 @@
   tasks:
   - import_role:
       name: python2
+  - import_role:
+      name: docker
 
 - hosts: jobmanager
   tasks: 
   - include_vars:
       file: credentials.yml
     tags: always
-  - import_role:
-      name: docker
   - import_role:
       name: monitoring
     tags: monitoring
@@ -22,4 +22,9 @@
   - import_role:
       name: rabbitmq-test
     tags: rabbitmq-test
-  
+    
+- hosts: worker-node-1
+  tasks: 
+  - import_role:
+      name: worker-calculation
+
