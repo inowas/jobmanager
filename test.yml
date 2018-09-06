@@ -6,11 +6,8 @@
 
 - hosts: node-1
   tasks: 
-    - import_role:
-        name: docker   
-    - import_role:
-        name: prometheus
-    - import_role:
-        name: rabbitmq    
+    - include_vars:
+        file: credentials.yml
     - import_role:
         name: rabbitmq-test
+

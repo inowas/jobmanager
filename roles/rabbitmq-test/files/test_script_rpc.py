@@ -1,14 +1,17 @@
 #!/usr/bin/env python
 import pika
 import uuid
+import os
 from threading import Thread
 from time import sleep
 
-RABBITMQ_HOST = 'rabbitmq'
 PAYLOAD = '{"payload":"payload"}'
+RABBITMQ_HOSTNAME = os.getenv("RABBITMQ_HOSTNAME")
+RABBITMQ_USERNAME = os.getenv("RABBITMQ_USERNAME")
+RABBITMQ_PASSWORD = os.getenv("RABBITMQ_PASSWORD")
 
 def start_server_thread():
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host=RABBITMQ_HOST, credentials=pika.credentials.PlainCredentials(username="admin", password="admin")))
+    connection = pika.BlockingConnection(pika.ConnectionParameters(host=RABBITMQ_HOSTNAME, credentials=pika.credentials.PlainCredentials(username=RABBITMQ_USERNAME, password=RABBITMQ_PASSWORD)))
     channel = connection.channel()
     channel.queue_declare(queue='rpc_queue')
 
@@ -31,7 +34,7 @@ def start_server_thread():
 
 class RpcClient(object):
     def __init__(self):
-        self.connection = pika.BlockingConnection(pika.ConnectionParameters(host=RABBITMQ_HOST, credentials=pika.credentials.PlainCredentials(username="admin", password="admin")))
+        self.connection = pika.BlockingConnection(pika.ConnectionParameters(host=RABBITMQ_HOSTNAME, credentials=pika.credentials.PlainCredentials(username=RABBITMQ_USERNAME, password=RABBITMQ_PASSWORD)))
         self.channel = self.connection.channel()
         result = self.channel.queue_declare(exclusive=True)
         self.callback_queue = result.method.queue
