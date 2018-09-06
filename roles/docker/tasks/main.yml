@@ -10,7 +10,7 @@
     - curl
     - software-properties-common
 
-- name: Ensure docke repository key is imported
+- name: Ensure docker repository key is imported
   apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
     state: present
@@ -46,3 +46,13 @@
   pip:
     name: docker-py
     state: present
+
+- name: Ensure daemon.json is copied to node
+  copy:
+    src: daemon.json
+    dest: /etc/docker/daemon.json
+
+- name: Ensure docker service is restarted
+  systemd:
+    name: docker
+    state: restarted
