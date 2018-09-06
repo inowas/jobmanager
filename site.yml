@@ -12,10 +12,13 @@
         name: docker
     - import_role:
         name: monitoring
+      tags: monitoring
     - import_role:
         name: rabbitmq
+      tags: rabbitmq
     - pause:
         seconds: 20
     - import_role:
         name: rabbitmq-test
+      tags: rabbitmq-test
 
