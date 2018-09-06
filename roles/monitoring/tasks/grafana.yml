@@ -2,11 +2,18 @@
   docker_network:
     name: jobmanager_network
 
+- name: Ensure prometheus server configuration is copied to host
+  template:
+    src=datasource.yml.j2
+    dest=/tmp/datasource.yml
+
 - name: Ensure grafana container is started
   docker_container:
     name: grafana
     image: grafana/grafana
     ports: "{{ grafana_port_list }}"
+    volumes:
+      - /tmp/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
     networks:
       - name: jobmanager_network
     state: started
