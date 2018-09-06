@@ -11,7 +11,7 @@
 - name: Ensure rabbitmq container is started
   docker_container:
     name: rabbitmq
-    image: deadtrickster/rabbitmq_prometheus
+    image: inowas/rabbitmq
     hostname: "{{ hostname }}"
     ports: "{{ port_list }}"
     volumes:
