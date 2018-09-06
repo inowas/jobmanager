@@ -3,10 +3,6 @@
     src=prometheus.yml.j2
     dest=/tmp/prometheus.yml
 
-- name: Create jobmanager network
-  docker_network:
-    name: jobmanager_network
-
 - name: Ensure prometheus container is started
   docker_container:
     name: prometheus

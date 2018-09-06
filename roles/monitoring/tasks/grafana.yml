@@ -1,7 +1,3 @@
-- name: Create jobmanager network
-  docker_network:
-    name: jobmanager_network
-
 - name: Ensure prometheus server configuration is copied to host
   template:
     src=datasource.yml.j2

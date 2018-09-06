@@ -1,3 +1,7 @@
+- name: Ensure jobmanager network is present
+  docker_network:
+    name: jobmanager_network
+
 - include: prometheus.yml
   tags:
   - prometheus
