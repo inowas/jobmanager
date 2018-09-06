@@ -3,8 +3,10 @@
   tasks:
   - import_role:
       name: python2
+    tags: python2
   - import_role:
       name: docker
+    tags: docker
 
 - hosts: jobmanager
   tasks: 
@@ -27,6 +29,7 @@
   tasks: 
   - import_role:
       name: worker-calculation
+    tags: worker-calculation
   - import_role:
       name: worker-read-data
-
+    tags: worker-read-data
