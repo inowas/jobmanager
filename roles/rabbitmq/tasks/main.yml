@@ -4,7 +4,11 @@
     dest: /tmp/start.sh
     mode: u+x
 
-- name: Create jobmanager network
+- name: Ensure that rabbitmq_data volume is present
+  docker_volume:
+    name: rabbitmq_data
+
+- name: Ensure jobmanager network is present
   docker_network:
     name: jobmanager_network
 
@@ -15,6 +19,7 @@
     hostname: "{{ hostname }}"
     ports: "{{ port_list }}"
     volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
       - /tmp/start.sh:/start.sh
     networks:
       - name: jobmanager_network
