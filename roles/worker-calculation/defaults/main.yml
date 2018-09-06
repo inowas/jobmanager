@@ -1,4 +1,4 @@
-rabbitmq_host: 192.168.178.42
+rabbitmq_host: 172.22.1.233
 rabbitmq_port: 5672
 rabbitmq_vhost: inowas_host
 rabbitmq_user: inowas_user
