@@ -8,10 +8,10 @@
     src: dashboards.yml
     dest: /tmp/dashboards.yml
 
-- name: Ensure node-exporter dashboard configuration is copied to host
+- name: Ensure dashboard configurations directory is copied to host
   copy:
-    src: node-exporter-full-new_rev12.json
-    dest: /tmp/node-exporter-full.json
+    src: dashboards/
+    dest: /tmp/dashboards/
 
 - name: Ensure grafana container is started
   docker_container:
@@ -21,7 +21,7 @@
     volumes:
     - /tmp/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
     - /tmp/dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yml
-    - /tmp/node-exporter-full.json:/var/lib/grafana/dashboards/node-export-full.json
+    - /tmp/dashboards/:/var/lib/grafana/dashboards/
     networks:
     - name: jobmanager_network
     state: started

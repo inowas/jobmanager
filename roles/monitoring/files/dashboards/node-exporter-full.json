@@ -16,8 +16,7 @@
   "editable": true,
   "gnetId": 1860,
   "graphTooltip": 0,
-  "id": 2,
-  "iteration": 1536308175391,
+  "iteration": 1536309453923,
   "links": [],
   "panels": [
     {
@@ -20865,7 +20864,11 @@
       },
       {
         "allValue": null,
-        "current": {},
+        "current": {
+          "tags": [],
+          "text": "172.22.1.236",
+          "value": "172.22.1.236"
+        },
         "datasource": "Prometheus",
         "hide": 0,
         "includeAll": false,
@@ -20885,7 +20888,10 @@
       },
       {
         "allValue": null,
-        "current": {},
+        "current": {
+          "text": "9100",
+          "value": "9100"
+        },
         "datasource": "Prometheus",
         "hide": 0,
         "includeAll": false,
@@ -20906,7 +20912,7 @@
     ]
   },
   "time": {
-    "from": "now-24h",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {
