@@ -1,7 +1,17 @@
-- name: Ensure prometheus server configuration is copied to host
-  template:
-    src=datasource.yml.j2
-    dest=/tmp/datasource.yml
+- name: Ensure datasource configuration is copied to host
+  copy:
+    src: datasource.yml
+    dest: /tmp/datasource.yml
+
+- name: Ensure dashboards configuration is copied to host
+  copy:
+    src: dashboards.yml
+    dest: /tmp/dashboards.yml
+
+- name: Ensure node-exporter dashboard configuration is copied to host
+  copy:
+    src: node-exporter-full-new_rev12.json
+    dest: /tmp/node-exporter-full.json
 
 - name: Ensure grafana container is started
   docker_container:
@@ -9,8 +19,10 @@
     image: grafana/grafana
     ports: "{{ grafana_port_list }}"
     volumes:
-      - /tmp/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
+    - /tmp/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
+    - /tmp/dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yml
+    - /tmp/node-exporter-full.json:/var/lib/grafana/dashboards/node-export-full.json
     networks:
-      - name: jobmanager_network
+    - name: jobmanager_network
     state: started
     recreate: yes

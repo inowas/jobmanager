@@ -1,0 +1,26 @@
+global:
+  scrape_interval: 15s
+  external_labels:
+    monitor: 'codelab-monitor'
+
+scrape_configs:
+  - job_name: 'prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'rabbitmq'
+    scrape_interval: 1s
+    metrics_path: /api/metrics
+    static_configs:
+      - targets: ['rabbitmq:15672']
+
+  - job_name: 'docker'
+    scrape_interval: 1s
+    static_configs:
+      - targets: ['172.22.1.233:9323', '172.22.1.236:9323']
+  
+  - job_name: 'nodes'
+    scrape_interval: 1s
+    static_configs:
+      - targets: ['172.22.1.233:9100', '172.22.1.236:9100']

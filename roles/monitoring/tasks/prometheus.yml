@@ -1,6 +1,6 @@
 - name: Ensure prometheus server configuration is copied to host
-  template:
-    src=prometheus.yml.j2
+  copy:
+    src=prometheus.yml
     dest=/tmp/prometheus.yml
 
 - name: Ensure prometheus container is started

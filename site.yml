@@ -4,9 +4,15 @@
   - import_role:
       name: python2
     tags: python2
+
+- hosts: all
+  tasks:
   - import_role:
       name: docker
     tags: docker
+  - import_role:
+      name: node-metrics-exporter
+    tags: node-metrics-exporter
 
 - hosts: jobmanager
   tasks: 
