@@ -14,4 +14,4 @@
       RABBITMQ_PASSWORD: "{{ rabbitmq_password }}"
       READ_DATA_QUEUE: rpc_flopy_read_data_queue
     command: python -u /pymodelling/inowas.flopy.read_data.rpc.server.py /data
-  with_sequence: count=5
+  with_sequence: count={{ worker_instance_count }}

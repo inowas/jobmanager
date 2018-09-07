@@ -3,3 +3,4 @@ rabbitmq_port: 5672
 rabbitmq_vhost: inowas_host
 rabbitmq_user: inowas_user
 rabbitmq_password: inowas_password
+worker_instance_count: 1

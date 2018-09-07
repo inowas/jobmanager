@@ -19,4 +19,4 @@
       CALCULATION_QUEUE: flopy_calculation_queue
       CALCULATION_FINISHED_QUEUE: flopy_calculation_finished_queue
     command: python -u /pymodelling/inowas.flopy.calculation.server.py /data
-  with_sequence: count=5
+  with_sequence: count={{ worker_instance_count }}

@@ -35,7 +35,11 @@
   tasks: 
   - import_role:
       name: worker-calculation
+    vars:
+      worker_instance_count: 3
     tags: worker-calculation
   - import_role:
       name: worker-read-data
+    vars:
+      worker_instance_count: 3
     tags: worker-read-data
