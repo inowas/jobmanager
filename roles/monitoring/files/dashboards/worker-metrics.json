@@ -55,7 +55,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "engine_daemon_container_states_containers{instance=\"172.22.1.236:9323\", state=\"running\"}",
+          "expr": "engine_daemon_container_states_containers{instance=\"172.22.1.172:9323\", state=\"running\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "refId": "A"
