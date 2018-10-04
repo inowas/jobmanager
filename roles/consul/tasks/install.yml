@@ -1,0 +1,21 @@
+- name: Download consul binary
+  get_url:
+    url: https://releases.hashicorp.com/consul/{{consul_version}}/consul_{{consul_version}}_linux_amd64.zip
+    dest: /usr/local/bin
+    mode: 0440
+
+- name: Install unzip package
+  apt:
+    update_cache: yes
+    name: unzip
+    state: present
+
+- name: Unarchive a file that is already on the remote machine
+  unarchive:
+    src: /usr/local/bin/consul_{{consul_version}}_linux_amd64.zip
+    dest: /usr/local/bin
+    owner: "{{ consul_user }}"
+    group: "{{ consul_group }}"
+    remote_src: yes
+    mode: 0755
+
