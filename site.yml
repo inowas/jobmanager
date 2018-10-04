@@ -53,15 +53,6 @@
       name: monitoring
     tags: monitoring
 
-- hosts: nfs
-  tasks:
-  - include_vars:
-      file: credentials.yml
-    tags: always
-  - import_role:
-      name: nfs
-    tags: nfs
-
 - hosts: dns
   tasks:
   - include_vars:
@@ -69,4 +60,22 @@
     tags: always
   - import_role:
       name: consul
+    vars:
+      consul_agent_type: server
     tags: consul
+
+- hosts: nfs
+  tasks:
+  - include_vars:
+      file: credentials.yml
+    tags: always
+  - debug: var=hostvars['dns']['consul_server_ip']
+    when: hostvars['dns']['consul_server_ip'] is defined
+  # - import_role:
+  #     name: consul
+  #   vars:
+  #     consul_agent_type: agent
+  #   tags: consul
+  # - import_role:
+  #     name: nfs
+  #   tags: nfs

@@ -1,2 +1,2 @@
-- include: user_group.yml
 - include: install.yml
+- include: start.yml

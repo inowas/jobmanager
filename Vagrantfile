@@ -76,7 +76,6 @@ Vagrant.configure("2") do |config|
         node.vm.provision "ansible" do |ansible|
             ansible.playbook = "site.yml"
             ansible.become = true
-            ansible.limit = "nfs"
             ansible.vault_password_file = "credentials.vault"
         end 
     end
@@ -96,7 +95,8 @@ Vagrant.configure("2") do |config|
         node.vm.provision "ansible" do |ansible|
             ansible.playbook = "site.yml"
             ansible.become = true
-            ansible.limit = "dns"
+            ansible.limit = "dns,nfs" 
+            # ansible.tags = "consul" 
             ansible.vault_password_file = "credentials.vault"
         end 
     end

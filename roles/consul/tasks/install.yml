@@ -1,21 +1,30 @@
 - name: Download consul binary
   get_url:
     url: https://releases.hashicorp.com/consul/{{consul_version}}/consul_{{consul_version}}_linux_amd64.zip
-    dest: /usr/local/bin
+    dest: /tmp
     mode: 0440
 
-- name: Install unzip package
+- name: Install required packages
   apt:
     update_cache: yes
-    name: unzip
+    name: "{{ item }}"
     state: present
+  with_items:
+    - unzip
 
 - name: Unarchive a file that is already on the remote machine
   unarchive:
-    src: /usr/local/bin/consul_{{consul_version}}_linux_amd64.zip
+    src: /tmp/consul_{{consul_version}}_linux_amd64.zip
     dest: /usr/local/bin
-    owner: "{{ consul_user }}"
-    group: "{{ consul_group }}"
     remote_src: yes
     mode: 0755
 
+# Retrieve host ip with check with interface returns an ip
+# BE CAREFUL! this may not  work if multiple network names are availiable
+- set_fact:
+    host_ip: "{{hostvars[inventory_hostname]['ansible_enp0s8']['ipv4']['address']}}"
+  when: hostvars[inventory_hostname]['ansible_enp0s8'] is defined
+
+- set_fact:
+    host_ip: "{{hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address']}}"
+  when: hostvars[inventory_hostname]['ansible_eth0'] is defined
