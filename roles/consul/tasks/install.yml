@@ -19,6 +19,11 @@
     remote_src: yes
     mode: 0755
 
+- name: Ensure that config directory for consul is present
+  file:
+    path: /etc/consul.d
+    state: directory
+
 # Retrieve host ip with check with interface returns an ip
 # BE CAREFUL! this may not  work if multiple network names are availiable
 - set_fact:
