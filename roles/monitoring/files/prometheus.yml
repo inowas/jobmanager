@@ -13,14 +13,14 @@ scrape_configs:
     scrape_interval: 1s
     metrics_path: /api/metrics
     static_configs:
-      - targets: ['rabbitmq:15672']
+      - targets: ['rabbitmq.service.consul:15672']
 
   - job_name: 'docker'
     scrape_interval: 1s
     static_configs:
-      - targets: ['172.22.1.161:9323', '172.22.1.172:9323', '172.22.1.233:9323', '172.22.1.236:9323']
+      - targets: ['agent-nfs.node.consul:9323', 'agent-worker-node-1.node.consul:9323', 'agent-monitoring.node.consul:9323', 'agent-jobmanager.node.consul:9323', 'agent-dns.node.consul:9323']
   
   - job_name: 'nodes'
     scrape_interval: 1s
     static_configs:
-      - targets: ['172.22.1.161:9100', '172.22.1.172:9100', '172.22.1.233:9100', '172.22.1.236:9100']
+      - targets: ['agent-nfs.node.consul:9100', 'agent-worker-node-1.node.consul:9100', 'agent-monitoring.node.consul:9100', 'agent-jobmanager.node.consul:9100', 'agent-dns.node.consul:9100']

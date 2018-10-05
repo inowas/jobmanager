@@ -8,6 +8,8 @@
     name: prometheus
     image: prom/prometheus
     ports: "{{ prometheus_port_list }}"
+    dns_servers:
+    - 169.254.1.1
     volumes:
       - /tmp/prometheus.yml:/etc/prometheus/prometheus.yml
     networks:
