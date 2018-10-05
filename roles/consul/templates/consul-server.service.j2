@@ -1,7 +1,7 @@
 [Unit]
 Description=Consul server
 [Service]
-ExecStart=/usr/local/bin/consul agent -server -bootstrap-expect=1 -bind={{host_ip}} -data-dir=/tmp/consul -config-dir=/etc/consul.d -node=consul-server -enable-script-checks=true
+ExecStart=/usr/local/bin/consul agent -server -bootstrap-expect=1 -bind={{host_ip}} -data-dir=/tmp/consul -config-dir=/etc/consul.d -node=agent-{{inventory_hostname}} -enable-script-checks=true
 Restart=always
 RestartSec=10
 [Install]
