@@ -11,13 +11,6 @@ Vagrant.configure("2") do |config|
             sudo sed -i -e "\\#PasswordAuthentication yes# s#PasswordAuthentication yes#PasswordAuthentication no#g" /etc/ssh/sshd_config
             sudo service ssh restart
         EOC
-
-        node.vm.provision "ansible" do |ansible|
-            ansible.playbook = "site.yml"
-            ansible.become = true
-            ansible.limit = "jobmanager"
-            ansible.vault_password_file = "credentials.vault"
-        end 
     end
 
     config.vm.define "worker-node-1" do |node|
@@ -31,13 +24,6 @@ Vagrant.configure("2") do |config|
             sudo sed -i -e "\\#PasswordAuthentication yes# s#PasswordAuthentication yes#PasswordAuthentication no#g" /etc/ssh/sshd_config
             sudo service ssh restart
         EOC
-
-        node.vm.provision "ansible" do |ansible|
-            ansible.playbook = "site.yml"
-            ansible.become = true
-            ansible.limit = "worker-node-1"
-            ansible.vault_password_file = "credentials.vault"
-        end 
     end
 
 
@@ -52,13 +38,6 @@ Vagrant.configure("2") do |config|
             sudo sed -i -e "\\#PasswordAuthentication yes# s#PasswordAuthentication yes#PasswordAuthentication no#g" /etc/ssh/sshd_config
             sudo service ssh restart
         EOC
-
-        node.vm.provision "ansible" do |ansible|
-            ansible.playbook = "site.yml"
-            ansible.become = true
-            ansible.limit = "monitoring"
-            ansible.vault_password_file = "credentials.vault"
-        end 
     end
 
     config.vm.define "nfs" do |node|
@@ -72,12 +51,6 @@ Vagrant.configure("2") do |config|
             sudo sed -i -e "\\#PasswordAuthentication yes# s#PasswordAuthentication yes#PasswordAuthentication no#g" /etc/ssh/sshd_config
             sudo service ssh restart
         EOC
-
-        node.vm.provision "ansible" do |ansible|
-            ansible.playbook = "site.yml"
-            ansible.become = true
-            ansible.vault_password_file = "credentials.vault"
-        end 
     end
 
     config.vm.define "dns" do |node|
@@ -95,8 +68,8 @@ Vagrant.configure("2") do |config|
         node.vm.provision "ansible" do |ansible|
             ansible.playbook = "site.yml"
             ansible.become = true
-            ansible.limit = "dns,nfs" 
-            # ansible.tags = "consul" 
+            ansible.limit = "monitoring" 
+            ansible.tags = "monitoring" 
             ansible.vault_password_file = "credentials.vault"
         end 
     end
