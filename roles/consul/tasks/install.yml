@@ -11,6 +11,7 @@
     state: present
   with_items:
     - unzip
+    - dnsmasq
 
 - name: Unarchive a file that is already on the remote machine
   unarchive:

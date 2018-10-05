@@ -1,3 +1,21 @@
+- name: Ensure consul interface configuration is copied to host
+  template:
+    src: interfaces.json.j2
+    dest: /etc/consul.d/interfaces.json
+
+- name: Ensure dummy0 network configuration is copied to host
+  copy:
+    src: "{{ item }}"
+    dest: /etc/systemd/network/{{ item }}
+  with_items:
+    - dummy0.netdev
+    - dummy0.network
+
+- name: Ensure systemd-networkd service is restarted
+  systemd:
+    state: restarted
+    name: systemd-networkd
+
 - name: Ensure consul {{consul_agent_type}} start script is copied to host
   template:
     src: consul-{{consul_agent_type}}.service.j2
@@ -12,3 +30,4 @@
 - set_fact:
     consul_server_ip: "{{host_ip}}"
   when: consul_agent_type == 'server'
+
