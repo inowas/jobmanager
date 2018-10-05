@@ -53,12 +53,16 @@
     dest: /etc/docker/daemon.json
 
 - name: Ensures /etc/systemd/system/docker.service.d dir exists
-  file: path=/etc/systemd/system/docker.service.d state=directory 
+  file: 
+    path: /etc/systemd/system/docker.service.d 
+    state: directory 
+  when: docker_proxy
 
 - name: Ensure docker proxy file is copied
   copy:
     src: http-proxy.conf
     dest: /etc/systemd/system/docker.service.d/http-proxy.conf
+  when: docker_proxy
 
 - name: Restart docker service
   systemd:
