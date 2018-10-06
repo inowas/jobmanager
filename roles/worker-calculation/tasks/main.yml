@@ -2,6 +2,15 @@
   docker_volume:
     name: worker_data
 
+- name: Get amount of cpu cores and calculate amount of workers to start
+  shell: grep -c ^processor /proc/cpuinfo
+  register: cpu_cores
+
+- set_fact:
+    worker_instance_count: "{{ cpu_cores.stdout | int }}"
+
+- debug: var=worker_instance_count
+
 - name: Ensure calculation worker containers are started
   docker_container:
     name: "worker-calculation-{{ item }}"

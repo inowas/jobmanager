@@ -54,13 +54,9 @@
     tags: consul
   - import_role:
       name: worker-calculation
-    vars:
-      worker_instance_count: 1
     tags: worker-calculation
   - import_role:
       name: worker-read-data
-    vars:
-      worker_instance_count: 1
     tags: worker-read-data
 
 - hosts: monitoring
