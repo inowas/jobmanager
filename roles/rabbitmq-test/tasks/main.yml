@@ -1,3 +1,7 @@
+- name: Wait for rabbitmq to start
+  pause:
+    seconds: 5
+
 - name: Run test image (Competing Consumers)
   docker_container:
     name: testimage_cc
@@ -21,7 +25,7 @@
     networks:
       - name: jobmanager_network
     env:
-      RABBITMQ_HOSTNAME: rabbitmq
+      RABBITMQ_HOSTNAME: agent-jobmanager.node.consul
       RABBITMQ_USERNAME: admin
       RABBITMQ_PASSWORD: "{{ admin_user_password }}"
     command: test_script_rpc.py
