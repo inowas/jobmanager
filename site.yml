@@ -38,8 +38,6 @@
   - import_role:
       name: rabbitmq
     tags: rabbitmq
-  - pause:
-      seconds: 20
   - import_role:
       name: rabbitmq-test
     tags: rabbitmq-test
