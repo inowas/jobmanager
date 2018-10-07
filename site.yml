@@ -13,28 +13,29 @@
   - import_role:
       name: node-metrics-exporter
     tags: node-metrics-exporter
+  - import_role:
+      name: consul
+    tags: consul
+  - import_role:
+      name: registrator
+    tags: registrator
+  - import_role:
+      name: traefik
+    tags: traefik
+
+
 
 - hosts: dns
   tasks:
   - include_vars:
       file: credentials.yml
     tags: always
-  - import_role:
-      name: consul
-    vars:
-      consul_agent_type: server
-    tags: consul
 
 - hosts: jobmanager
   tasks: 
   - include_vars:
       file: credentials.yml
     tags: always
-  - import_role:
-      name: consul
-    vars:
-      consul_agent_type: agent
-    tags: consul
   - import_role:
       name: rabbitmq
     tags: rabbitmq
@@ -48,11 +49,6 @@
       file: credentials.yml
     tags: always
   - import_role:
-      name: consul
-    vars:
-      consul_agent_type: agent
-    tags: consul
-  - import_role:
       name: worker-calculation
     tags: worker-calculation
   - import_role:
@@ -65,11 +61,6 @@
       file: credentials.yml
     tags: always
   - import_role:
-      name: consul
-    vars:
-      consul_agent_type: agent
-    tags: consul
-  - import_role:
       name: monitoring
     tags: monitoring
 
@@ -78,13 +69,6 @@
   - include_vars:
       file: credentials.yml
     tags: always
-  - debug: var=hostvars['dns']['consul_server_ip']
-    when: hostvars['dns']['consul_server_ip'] is defined
-  - import_role:
-      name: consul
-    vars:
-      consul_agent_type: agent
-    tags: consul
   - import_role:
       name: nfs
     tags: nfs
