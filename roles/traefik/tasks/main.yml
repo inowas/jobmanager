@@ -1,0 +1,30 @@
+- name: Ensure that wa_network is present
+  docker_network:
+    name: wa_network
+
+- file:
+    path: /srv/traefik
+    state: directory
+    mode: 0755
+
+- name: Ensure traefik server configuration is copied to host
+  copy:
+    src=traefik.toml
+    dest=/srv/traefik/traefik.toml
+
+- name: Ensure traefik container is started
+  docker_container:
+    name: traefik
+    image: traefik
+    networks:
+    - name: wa_network
+    recreate: yes
+    ports:
+    - "80:80"    
+    - "443:443"
+    - "8080:8080"
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    - /srv/traefik/traefik.toml:/traefik.toml
+    - /srv/traefik/certs/:/certs/
+    command: --api --docker

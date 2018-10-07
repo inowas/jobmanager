@@ -1,0 +1,17 @@
+debug = false
+
+logLevel = "DEBUG"
+defaultEntryPoints = ["http"]
+insecureSkipVerify = true
+
+[entryPoints]
+  [entryPoints.http]
+  address = ":80"
+
+[retry]
+
+[docker]
+endpoint = "unix:///var/run/docker.sock"
+domain = "service.consul"
+watch = true
+exposedbydefault = false
