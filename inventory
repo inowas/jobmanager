@@ -1,6 +1,13 @@
 [tud]
+dns ansible_host=172.22.1.236 ansible_ssh_user=root
 jobmanager ansible_host=172.22.1.161 ansible_ssh_user=root
 worker-node-1 ansible_host=172.22.1.172 ansible_ssh_user=root
 monitoring ansible_host=172.22.1.233 ansible_ssh_user=root
 nfs ansible_host=172.22.1.236 ansible_ssh_user=root
-dns ansible_host=172.22.1.236 ansible_ssh_user=root
+
+[vagrant]
+dns ansible_host=192.168.43.205 ansible_ssh_user=vagrant
+jobmanager ansible_host=192.168.43.43 ansible_ssh_user=vagrant
+worker-node-1 ansible_host=192.168.43.199 ansible_ssh_user=vagrant
+monitoring ansible_host=192.168.43.214 ansible_ssh_user=vagrant
+nfs ansible_host=192.168.43.157 ansible_ssh_user=vagrant

@@ -1,0 +1,16 @@
+- name: Ensure required packages for nfs server are installed
+  apt:
+    update_cache: yes
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - nfs-kernel-server
+    - nfs-common
+
+- name: Create mountable dir
+  file: 
+    path: /share 
+    state: directory 
+    mode: 777 
+    owner: root 
+    group: root

@@ -1,7 +1,3 @@
-- name: Ensure that wa_network is present
-  docker_network:
-    name: wa_network
-
 - file:
     path: /srv/traefik
     state: directory
@@ -16,8 +12,6 @@
   docker_container:
     name: traefik
     image: traefik
-    networks:
-    - name: wa_network
     recreate: yes
     ports:
     - "80:80"    

@@ -68,9 +68,10 @@ Vagrant.configure("2") do |config|
         node.vm.provision "ansible" do |ansible|
             ansible.playbook = "site.yml"
             ansible.become = true
-            ansible.limit = "monitoring" 
-            ansible.tags = "monitoring" 
+            ansible.limit = "all"
             ansible.vault_password_file = "credentials.vault"
         end 
     end
+
+    
 end

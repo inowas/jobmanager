@@ -14,16 +14,24 @@
       name: node-metrics-exporter
     tags: node-metrics-exporter
   - import_role:
-      name: consul
-    tags: consul
-  - import_role:
       name: registrator
     tags: registrator
+
+- hosts: dns
+  tasks:
   - import_role:
-      name: traefik
-    tags: traefik
+      name: consul
+    vars:
+      consul_agent_type: server
+    tags: consul
 
-
+- hosts: all:!dns
+  tasks:
+  - import_role:
+      name: consul
+    vars:
+      consul_agent_type: agent
+    tags: consul
 
 - hosts: dns
   tasks:

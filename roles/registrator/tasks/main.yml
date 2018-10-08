@@ -1,0 +1,10 @@
+- name: Ensure registrator container is started
+  docker_container:
+    name: registrator
+    image: gliderlabs/registrator
+    volumes:
+    - /var/run/docker.sock:/tmp/docker.sock
+    network_mode: host
+    state: started
+    recreate: yes
+    command: consul://localhost:8500

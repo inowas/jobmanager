@@ -1,1 +1,2 @@
 docker_proxy: false
+consul_agent_type: agent
