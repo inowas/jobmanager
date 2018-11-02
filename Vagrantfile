@@ -64,13 +64,6 @@ Vagrant.configure("2") do |config|
             sudo sed -i -e "\\#PasswordAuthentication yes# s#PasswordAuthentication yes#PasswordAuthentication no#g" /etc/ssh/sshd_config
             sudo service ssh restart
         EOC
-
-        node.vm.provision "ansible" do |ansible|
-            ansible.playbook = "site.yml"
-            ansible.become = true
-            ansible.limit = "all"
-            ansible.vault_password_file = "credentials.vault"
-        end 
     end
 
     
