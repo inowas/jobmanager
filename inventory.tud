@@ -1,0 +1,6 @@
+[tud]
+dns ansible_host=172.22.1.236 ansible_ssh_user=root
+jobmanager ansible_host=172.22.1.161 ansible_ssh_user=root
+worker_node_1 ansible_host=172.22.1.172 ansible_ssh_user=root
+monitoring ansible_host=172.22.1.233 ansible_ssh_user=root
+nfs ansible_host=172.22.1.236 ansible_ssh_user=root

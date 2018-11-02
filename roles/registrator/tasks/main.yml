@@ -1,10 +1,11 @@
-- name: Ensure registrator container is started
+- name: Ensure registartor container is started and optionally recreated ({{ docker_recreate }})
   docker_container:
-    name: registrator
-    image: gliderlabs/registrator
+    name: "{{ app_name }}"
+    image: gliderlabs/registrator:master
     volumes:
     - /var/run/docker.sock:/tmp/docker.sock
     network_mode: host
+    restart_policy: unless-stopped
     state: started
-    recreate: yes
-    command: consul://localhost:8500
+    recreate: "{{ docker_recreate }}"
+    command: -internal -useIpFromLabel host.ip consul://{{ consul_agent_ip }}:8500 

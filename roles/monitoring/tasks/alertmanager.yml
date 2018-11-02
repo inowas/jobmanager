@@ -1,0 +1,23 @@
+- name: Ensure alertmanager configuration data is copied to host
+  copy:
+    src=alertmanager-data/
+    dest=/srv/{{ alertmanager_app_name }}
+
+- name: Ensure alertmanager container is started and optionally recreated ({{ docker_recreate }})
+  docker_container:
+    name: "{{ alertmanager_app_name }}"
+    image: prom/alertmanager
+    state: started
+    recreate: "{{ docker_recreate }}"
+    restart_policy: unless-stopped
+    dns_servers:
+    - "{{ consul_agent_ip }}"
+    volumes:
+      - /srv/{{ alertmanager_app_name }}:/data
+    command: --config.file=/data/alertmanager.yml
+    env:
+      SERVICE_TAGS: "metrics-dns,alertmanager"
+      SERVICE_9090_NAME: "{{ alertmanager_app_name }}"
+    labels:
+      traefik.frontend.rule: "Host:{{ alertmanager_app_name }}.{{consul_service_domain}}"
+      host.ip: "{{ host_ip }}"

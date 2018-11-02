@@ -1,0 +1,27 @@
+- import_role:
+    name: get_host_ip
+
+- name: Ensure cadvisor container is started and optionally recreated ({{ docker_recreate }})
+  docker_container:
+    name: "{{ app_name }}"
+    image: google/cadvisor
+    recreate: "{{ docker_recreate }}"
+    restart_policy: unless-stopped
+    state: started
+    ports:
+    - 9108:9108
+    exposed_ports:
+      - 9108
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:ro
+    - /sys:/sys:ro
+    - /var/lib/docker/:/var/lib/docker:ro
+    - /dev/disk/:/dev/disk:ro
+    env:
+      SERVICE_TAGS: "metrics-ip"
+      SERVICE_8080_IGNORE: true
+      SERVICE_9108_NAME: "{{ app_name }}"
+    labels:
+      host.ip: "{{ host_ip }}"
+    command: --port=9108 -enable_load_reader=true

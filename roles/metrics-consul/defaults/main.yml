@@ -1,0 +1,2 @@
+app_name: consul-exporter
+docker_recreate: no

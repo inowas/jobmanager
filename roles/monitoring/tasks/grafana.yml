@@ -1,28 +1,29 @@
-- name: Ensure datasource configuration is copied to host
+- name: Ensure grafana configuration data is copied to host
   copy:
-    src: datasource.yml
-    dest: /tmp/datasource.yml
+    src=grafana-data/
+    dest=/srv/{{ grafana_app_name }}
 
-- name: Ensure dashboards configuration is copied to host
-  copy:
-    src: dashboards.yml
-    dest: /tmp/dashboards.yml
+- name: Ensure grafana datasource config is copied to host
+  template:
+    src: datasource.yml.j2
+    dest: /srv/{{ grafana_app_name }}/datasource.yml
 
-- name: Ensure dashboard configurations directory is copied to host
-  copy:
-    src: dashboards/
-    dest: /tmp/dashboards/
-
-- name: Ensure grafana container is started
+- name: Ensure grafana container is started and optionally recreated ({{ docker_recreate }})
   docker_container:
-    name: grafana
+    name: "{{ grafana_app_name }}"
     image: grafana/grafana
-    ports: "{{ grafana_port_list }}"
+    recreate: "{{ docker_recreate }}"
+    restart_policy: unless-stopped
     volumes:
-    - /tmp/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
-    - /tmp/dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yml
-    - /tmp/dashboards/:/var/lib/grafana/dashboards/
-    networks:
-    - name: jobmanager_network
+    - /srv/{{ grafana_app_name }}/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
+    - /srv/{{ grafana_app_name }}/dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yml
+    - /srv/{{ grafana_app_name }}/dashboards/:/var/lib/grafana/dashboards/
     state: started
-    recreate: yes
+    dns_servers:
+    - "{{ consul_agent_ip }}"
+    env:
+      SERVICE_TAGS: "metrics-dns"
+      SERVICE_9090_NAME: "{{ grafana_app_name }}"
+    labels:
+      traefik.frontend.rule: "Host:{{ grafana_app_name }}.{{consul_service_domain}}"
+      host.ip: "{{ host_ip }}"

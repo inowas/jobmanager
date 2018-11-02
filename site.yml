@@ -33,12 +33,6 @@
       consul_agent_type: agent
     tags: consul
 
-- hosts: dns
-  tasks:
-  - include_vars:
-      file: credentials.yml
-    tags: always
-
 - hosts: jobmanager
   tasks: 
   - include_vars:
@@ -51,7 +45,7 @@
       name: rabbitmq-test
     tags: rabbitmq-test
     
-- hosts: worker-node-1
+- hosts: worker_node_1,worker_node_2
   tasks: 
   - include_vars:
       file: credentials.yml
@@ -62,6 +56,9 @@
   - import_role:
       name: worker-read-data
     tags: worker-read-data
+  - import_role:
+      name: worker-optimization
+    tags: worker-optimization
 
 - hosts: monitoring
   tasks: 

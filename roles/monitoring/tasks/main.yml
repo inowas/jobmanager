@@ -1,11 +1,6 @@
-- name: Ensure jobmanager network is present
-  docker_network:
-    name: jobmanager_network
+- import_role:
+    name: get_host_ip
 
 - include: prometheus.yml
-  tags:
-  - prometheus
-
+- include: alertmanager.yml
 - include: grafana.yml
-  tags:
-  - grafana

@@ -1,3 +1,4 @@
-consul_version: "1.2.3"
-consul_user: consul
-consul_group: consul
+consul_version: 1.2.3
+remote_dns_server: 8.8.8.8
+
+systemd_state: started

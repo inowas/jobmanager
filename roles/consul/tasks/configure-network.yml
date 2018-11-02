@@ -1,0 +1,36 @@
+- name: Ensure required packages are present
+  apt:
+    update_cache: yes
+    name: ['dnsmasq']
+    state: present
+
+- name: Ensure dummy0 network configuration is copied to host
+  template:
+    src: "{{ item }}"
+    dest: /etc/systemd/network/{{ item }}
+  with_items:
+    - dummy0.netdev
+    - dummy0.network
+
+- name: Ensure systemd-networkd service is {{ systemd_state }}
+  systemd:
+    state: "{{ systemd_state }}"
+    name: systemd-networkd
+
+- name: Ensure consul config for dnsmasq is copied to host
+  template:
+    src: consul.conf.j2
+    dest: /etc/dnsmasq.d/consul.conf
+
+- name: Ensure dnsmasq service is {{ systemd_state }}
+  systemd:
+    name: dnsmasq
+    daemon_reload: yes
+    state: "{{ systemd_state }}"
+
+- name: Ensure resolv.conf is copied to host
+  template:
+    src: resolv.conf.j2
+    dest: /etc/resolv.conf
+    mode: 0644
+    force: yes

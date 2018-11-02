@@ -1,0 +1,20 @@
+# Retrieve host ip with check with interface returns an ip
+# BE CAREFUL! this may not  work if multiple network names are availiable
+# -----------------------------------------------------------------------
+# vagrant
+- set_fact:
+    host_ip: "{{hostvars[inventory_hostname]['ansible_enp0s8']['ipv4']['address']}}"
+  when: hostvars[inventory_hostname]['ansible_enp0s8'] is defined
+
+# standard
+- set_fact:
+    host_ip: "{{hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address']}}"
+  when: hostvars[inventory_hostname]['ansible_eth0'] is defined
+
+# s-direkt
+- set_fact:
+    host_ip: "{{hostvars[inventory_hostname]['ansible_ens33']['ipv4']['address']}}"
+  when: hostvars[inventory_hostname]['ansible_ens33'] is defined
+# -----------------------------------------------------------------------
+
+- debug: var=host_ip

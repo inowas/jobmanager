@@ -1,0 +1,11 @@
+- name: Ensure service configuration is copied to host
+  template:
+    src: service.json.j2
+    dest: /etc/consul.d/{{ service_name }}.json
+
+# The Service name is fixed to consul-agent, because only on agents services can be registered
+- name: Ensure service consul-agent.service is {{ systemd_state }}
+  systemd:
+    state: "{{ systemd_state }}"
+    daemon_reload: yes
+    name: consul-agent.service

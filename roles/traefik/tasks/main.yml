@@ -1,24 +1,38 @@
-- file:
-    path: /srv/traefik
-    state: directory
-    mode: 0755
-
-- name: Ensure traefik server configuration is copied to host
+- name: Ensure traefik configuration data is copied to host
   copy:
-    src=traefik.toml
-    dest=/srv/traefik/traefik.toml
+    src: traefik-data/
+    dest: /srv/{{ app_name }}
 
-- name: Ensure traefik container is started
+- name: Ensure traefik.toml is copied to host
+  template:
+    src: traefik.toml.j2
+    dest: /srv/{{ app_name }}/traefik.toml
+
+- import_role:
+    name: get_host_ip
+
+- name: Ensure traefik container is started and optionally recreated ({{ docker_recreate }})
   docker_container:
-    name: traefik
+    name: "{{ app_name }}"
     image: traefik
-    recreate: yes
+    state: started
+    recreate: "{{ docker_recreate }}"
+    restart_policy: unless-stopped
+    dns_servers:
+    - "{{ consul_agent_ip }}"
     ports:
     - "80:80"    
     - "443:443"
     - "8080:8080"
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
-    - /srv/traefik/traefik.toml:/traefik.toml
-    - /srv/traefik/certs/:/certs/
+    - /srv/{{ app_name }}/traefik.toml:/traefik.toml
+    - /srv/{{ app_name }}/certs/:/certs/
     command: --api --docker
+    env:
+      SERVICE_TAGS: "metrics-ip"
+      SERVICE_80_IGNORE: true
+      SERVICE_443_IGNORE: true
+      SERVICE_8080_NAME: "{{ app_name }}"
+    labels:
+      host.ip: "{{ host_ip }}"

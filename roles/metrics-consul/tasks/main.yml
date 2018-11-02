@@ -1,0 +1,18 @@
+- import_role:
+    name: get_host_ip
+
+- name: Ensure consul-exporter container is started and optionally recreated ({{ docker_recreate }})
+  docker_container:
+    name: "{{ app_name }}"
+    image: prom/consul-exporter
+    recreate: "{{ docker_recreate }}"
+    restart_policy: unless-stopped
+    state: started
+    ports:
+    - 9107:9107
+    env:
+      SERVICE_TAGS: "metrics-ip"
+      SERVICE_NAME: "{{ app_name }}"
+    labels:
+      host.ip: "{{ host_ip }}"
+    command: --consul.server={{consul_agent_ip}}:8500

@@ -1,0 +1,19 @@
+- name: Ensure daemon.json is copied to node
+  copy:
+    src: daemon.json
+    dest: /etc/docker/daemon.json
+
+- name: Ensure docker service is {{ systemd_state }}
+  systemd:
+    name: docker
+    state: "{{ systemd_state }}"
+
+# user consul task to create service
+- name: Use consul register service to register metrics endpoint of docker daemon as consul service
+  include_role:
+    name: consul
+    tasks_from: register-service
+  vars:
+    service_name: docker-deamon
+    service_port: 9323
+    service_tags: ['metrics-ip']

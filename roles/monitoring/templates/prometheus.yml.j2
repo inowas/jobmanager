@@ -1,0 +1,52 @@
+global:
+  scrape_interval: 15s
+  external_labels:
+    monitor: 'codelab-monitor'
+
+scrape_configs:
+  - job_name: 'metrics-ip'
+    consul_sd_configs:
+      - server:   '{{ consul_agent_ip }}:8500'
+
+    relabel_configs:
+      - source_labels: [__meta_consul_tags]
+        regex: .*,metrics-ip,.*
+        action: keep
+      - source_labels: ['__meta_consul_service']
+        regex:         '(.*)'
+        target_label:  'job'
+        replacement:   '$1'
+
+  - job_name: 'metrics-dns'
+    consul_sd_configs:
+      - server:   '{{ consul_agent_ip }}:8500'
+      
+    relabel_configs:
+      - source_labels: [__meta_consul_tags]
+        regex: .*,metrics-dns,.*
+        action: keep
+      - source_labels: ['__meta_consul_service']
+        regex:         '(.*)'
+        target_label:  __address__
+        replacement:   '$1.{{consul_service_domain}}'
+      - source_labels: ['__meta_consul_service']
+        regex:         '(.*)'
+        target_label:  'job'
+        replacement:   '$1'
+
+alerting:
+  alertmanagers:
+    - consul_sd_configs:
+      - server:   '{{ consul_agent_ip }}:8500'
+
+      relabel_configs:
+        - source_labels: [__meta_consul_tags]
+          regex: .*,alertmanager,.*
+          action: keep
+        - source_labels: ['__meta_consul_service']
+          regex:         '(.*)'
+          target_label:  __address__
+          replacement:   '$1.{{consul_service_domain}}'
+
+rule_files:
+- "/data/rules/*.rules"

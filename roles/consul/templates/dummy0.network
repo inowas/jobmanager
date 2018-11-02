@@ -1,0 +1,5 @@
+[Match]
+Name=dummy0
+
+[Network]
+Address={{ consul_agent_ip }}/32

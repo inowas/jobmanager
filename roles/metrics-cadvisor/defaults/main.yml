@@ -1,0 +1,2 @@
+app_name: cadvisor
+docker_recreate: no

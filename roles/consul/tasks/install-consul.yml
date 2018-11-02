@@ -1,0 +1,43 @@
+- name: Download consul binary
+  get_url:
+    url: https://releases.hashicorp.com/consul/{{consul_version}}/consul_{{consul_version}}_linux_amd64.zip
+    dest: /tmp
+    mode: 0440
+
+- name: Ensure required packages are present
+  apt:
+    update_cache: yes
+    name: ['unzip']
+    state: present
+
+- name: Ensure consul binary is unarchived
+  unarchive:
+    src: /tmp/consul_{{ consul_version }}_linux_amd64.zip
+    dest: /usr/local/bin
+    remote_src: yes
+    mode: 0755
+
+- name: Ensure that config directory for consul is present
+  file:
+    path: /etc/consul.d
+    state: directory
+
+- import_role:
+    name: get_host_ip
+
+- name: Ensure consul interface configuration is copied to host
+  template:
+    src: interfaces.json.j2
+    dest: /etc/consul.d/interfaces.json
+
+- name: Ensure consul {{ consul_agent_type }} start script is copied to host
+  template:
+    src: consul-{{ consul_agent_type }}.service.j2
+    dest: /etc/systemd/system/consul-{{ consul_agent_type }}.service
+
+- name: Ensure service consul-{{ consul_agent_type }}.service is {{ systemd_state}}
+  systemd:
+    state: "{{ systemd_state}}"
+    daemon_reload: yes
+    enabled: yes
+    name: consul-{{ consul_agent_type }}.service

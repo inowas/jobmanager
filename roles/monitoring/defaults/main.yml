@@ -1,4 +1,5 @@
-prometheus_port_list:
-    - 9090:9090
-grafana_port_list:
-    - 3000:3000
+alertmanager_app_name: alertmanager
+prometheus_app_name: prometheus
+grafana_app_name: grafana
+
+docker_recreate: no

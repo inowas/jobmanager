@@ -1,0 +1,6 @@
+[vagrant]
+dns ansible_host=192.168.44.160 ansible_ssh_user=vagrant ansible_become=yes
+jobmanager ansible_host=192.168.44.121 ansible_ssh_user=vagrant ansible_become=yes
+worker_node_1 ansible_host=192.168.44.128 ansible_ssh_user=vagrant ansible_become=yes
+monitoring ansible_host=192.168.44.158 ansible_ssh_user=vagrant ansible_become=yes
+nfs ansible_host=192.168.44.159 ansible_ssh_user=vagrant ansible_become=yes
