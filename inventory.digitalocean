@@ -1,6 +1,0 @@
-[digitalocean]
-dns ansible_host=139.59.153.198 ansible_ssh_user=root
-jobmanager ansible_host=138.197.188.247 ansible_ssh_user=root
-monitoring ansible_host=46.101.227.133 ansible_ssh_user=root
-worker_node_1 ansible_host=206.189.14.237 ansible_ssh_user=root
-worker_node_2 ansible_host=174.138.14.216 ansible_ssh_user=root

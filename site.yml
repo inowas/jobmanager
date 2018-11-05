@@ -5,24 +5,10 @@
       name: python2
     tags: python2
 
-- hosts: all
-  tasks:
-  - import_role:
-      name: docker
-    tags: docker
-  - import_role:
-      name: node-metrics-exporter
-    tags: node-metrics-exporter
-  - import_role:
-      name: registrator
-    tags: registrator
-
 - hosts: dns
   tasks:
   - import_role:
       name: consul
-    vars:
-      consul_agent_type: server
     tags: consul
 
 - hosts: all:!dns
@@ -31,34 +17,30 @@
       name: consul
     vars:
       consul_agent_type: agent
+      consul_server_ip: "{{ hostvars['dns']['ansible_host'] }}"
     tags: consul
 
-- hosts: jobmanager
+- hosts: nodes
   tasks: 
-  - include_vars:
-      file: credentials.yml
-    tags: always
   - import_role:
-      name: rabbitmq
-    tags: rabbitmq
+      name: docker
+    tags: docker
   - import_role:
-      name: rabbitmq-test
-    tags: rabbitmq-test
-    
-- hosts: worker_node_1,worker_node_2
-  tasks: 
-  - include_vars:
-      file: credentials.yml
-    tags: always
+      name: metrics-node
+    tags: metrics-node
   - import_role:
-      name: worker-calculation
-    tags: worker-calculation
+      name: metrics-cadvisor
+    tags: metrics-cadvisor
   - import_role:
-      name: worker-read-data
-    tags: worker-read-data
+      name: metrics-consul
+    tags: metrics-consul
   - import_role:
-      name: worker-optimization
-    tags: worker-optimization
+      name: registrator
+    tags: registrator
+  - import_role:
+      name: traefik
+    tags: traefik
+
 
 - hosts: monitoring
   tasks: 
@@ -77,3 +59,30 @@
   - import_role:
       name: nfs
     tags: nfs
+
+- hosts: jobmanager
+  tasks: 
+  - include_vars:
+      file: credentials.yml
+    tags: always
+  - import_role:
+      name: rabbitmq
+    tags: rabbitmq
+  - import_role:
+      name: rabbitmq-test
+    tags: rabbitmq-test
+    
+- hosts: worker-node-1
+  tasks: 
+  - include_vars:
+      file: credentials.yml
+    tags: always
+  - import_role:
+      name: worker-calculation
+    tags: worker-calculation
+  - import_role:
+      name: worker-read-data
+    tags: worker-read-data
+  - import_role:
+      name: worker-optimization
+    tags: worker-optimization
