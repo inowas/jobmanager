@@ -1,5 +1,2 @@
+app_name: rabbitmq
 hostname: "jobmanager"
-port_list:
-    - 15672:15672
-    - 5672:5672
-    - 5671:5671

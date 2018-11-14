@@ -1,4 +1,4 @@
-- name: Ensure traefik configuration data is copied to host
+- name: Ensure rabbitmq configuration data is copied to host
   copy:
     src: rabbitmq-data/
     dest: /srv/rabbitmq
@@ -22,23 +22,28 @@
     name: rabbitmq
     image: inowas/rabbitmq
     hostname: "{{ hostname }}"
-    ports: "{{ port_list }}"
+    ports: 
+    - 5672:5672
+    - 5671:5671
     volumes:
-      - rabbitmq_data:/var/lib/rabbitmq
-      - /srv/rabbitmq:/data
+    - rabbitmq_data:/var/lib/rabbitmq
+    - /srv/rabbitmq:/data
+    - /srv/rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.config
     env:
-      LISTENERS_SSL: /data/certs/cert.cert 
-      RABBITMQ_SSL_CERT_FILE: /data/certs/server_certificate.pem 
-      RABBITMQ_SSL_KEY_FILE: /data/certs/server_key.pem 
-      RABBITMQ_SSL_CA_FILE: /data/certs/ca_certificate.pem
-      RABBITMQ_SSL_FAIL_IF_NO_PEER_CERT: false 
-      RABBITMQ_SSL_VERIFY: verify_peer
+      SERVICE_15672_NAME: "{{ app_name }}"
       SERVICE_5672_NAME: rabbitmq-tcp
       SERVICE_5671_NAME: rabbitmq-tls
+      SERVICE_15671_IGNORE: true
+      SERVICE_25672_IGNORE: true
+      SERVICE_4369_IGNORE: true
+      SERVICE_TAGS: "metrics-rabbitmq"
     labels:
+      traefik.frontend.rule: "Host:{{ app_name }}.{{consul_service_domain}}"
+      traefik.port: "15672"
       host.ip: "{{ host_ip }}"
     state: started
     recreate: yes
+    
     command: /data/start.sh
 
 - import_role:
