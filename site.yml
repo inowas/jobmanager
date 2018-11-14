@@ -68,9 +68,6 @@
   - import_role:
       name: rabbitmq
     tags: rabbitmq
-  - import_role:
-      name: rabbitmq-test
-    tags: rabbitmq-test
     
 - hosts: worker-node-1
   tasks: 

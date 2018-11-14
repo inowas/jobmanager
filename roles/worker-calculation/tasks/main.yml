@@ -20,7 +20,7 @@
     volumes:
     - worker_data:/data
     dns_servers:
-    - 169.254.1.1
+    - "{{ consul_agent_ip }}"
     env:
       RABBITMQ_HOST: "{{ rabbitmq_host }}"
       RABBITMQ_PORT: "{{ rabbitmq_port }}"

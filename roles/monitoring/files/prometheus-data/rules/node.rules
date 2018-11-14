@@ -1,0 +1,19 @@
+groups:
+- name: node.rules
+  rules:
+  - alert: DeadmansSwitch
+    expr: vector(1)
+
+  - alert: HighNodeCPUPercentage
+    expr:  (100 - (avg by (instance) (irate(node_cpu_seconds_total{job="node-exporter",mode="idle"}[5m])) * 100)) > 75.0
+    for: 2m
+    annotations:
+      summary: "{{$labels.instance}}: High memory usage detected"
+      description: "{{$labels.instance}}: Memory usage is above 75% (current value is: {{ $value }})"
+
+  - alert: HighNodeUsedRAMPercentage
+    expr: (100 - (node_memory_MemAvailable_bytes  / node_memory_MemTotal_bytes  * 100)) > 75.0
+    for: 2m
+    annotations:
+      summary: "{{$labels.instance}}: High memory usage detected"
+      description: "{{$labels.instance}}: Memory usage is above 75% (current value is: {{ $value }})"

@@ -8,4 +8,4 @@
     restart_policy: unless-stopped
     state: started
     recreate: "{{ docker_recreate }}"
-    command: -internal -useIpFromLabel host.ip consul://{{ consul_agent_ip }}:8500 
+    command: -internal -cleanup=true -useIpFromLabel host.ip consul://{{ consul_agent_ip }}:8500 

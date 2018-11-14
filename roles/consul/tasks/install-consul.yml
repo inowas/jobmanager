@@ -35,9 +35,14 @@
     src: consul-{{ consul_agent_type }}.service.j2
     dest: /etc/systemd/system/consul-{{ consul_agent_type }}.service
 
-- name: Ensure service consul-{{ consul_agent_type }}.service is {{ systemd_state}}
+- name: Creates consul data directory
+  file: 
+    path: /srv/consul
+    state: directory
+
+- name: Ensure service consul-{{ consul_agent_type }}.service is {{ systemd_state }}
   systemd:
-    state: "{{ systemd_state}}"
+    state: "{{ systemd_state }}"
     daemon_reload: yes
     enabled: yes
     name: consul-{{ consul_agent_type }}.service

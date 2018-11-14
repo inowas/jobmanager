@@ -30,3 +30,12 @@ ansible-playbook -i inventory sites.yml
 ```
 
 > NOTE: You need to replace the ip's in the inventory with the ip's you wrote down on vagrant provisioning.
+
+## Architecture Documentation
+
+
+## Role Documentation 
+
+## Known Architecture Issues
+
+- If host ip changes it is not reflected to underlying service

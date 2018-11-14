@@ -1,13 +1,6 @@
-- name: Get amount of cpu cores and calculate amount of workers to start
-  shell: grep -c ^processor /proc/cpuinfo
-  register: cpu_cores
-
-- set_fact:
-    worker_instance_count: "{{ cpu_cores.stdout | int }}"
-
-- name: Ensure read data worker containers are started
+- name: Ensure optimization worker containers are started
   docker_container:
-    name: "worker-optimization-{{ item }}"
+    name: "worker-optimization"
     image: inowas/pymodelling
     state: started
     restart: yes
@@ -15,7 +8,7 @@
     - /var/run/docker.sock:/var/run/docker.sock
     - optimization-data:{{ optimization_data_folder }}
     dns_servers:
-    - 169.254.1.1
+    - "{{ consul_agent_ip }}"
     env:
       RABBITMQ_HOST: "{{ rabbitmq_host }}"
       RABBITMQ_PORT: "{{ rabbitmq_port }}"
@@ -28,6 +21,5 @@
       OPTIMIZATION_DATA_VOLUME: inowas_optimization-data
       OPTIMIZATION_IMAGE: inowas/pymodelling:optimization
       SIMULATION_IMAGE: inowas/pymodelling:simulation
-      NUM_SOLVERS_GA: 5
+      NUM_SOLVERS_GA: "5"
     command: python -u /pymodelling/Optimization/main.py
-  with_sequence: count={{ worker_instance_count }}
