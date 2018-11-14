@@ -1,17 +1,17 @@
 - name: Wait for rabbitmq to start
   pause:
-    seconds: 5
+    seconds: 20
 
 - name: Run test image (Competing Consumers)
   docker_container:
     name: testimage_cc
     image: inowas/rabbitmq-test
-    networks:
-      - name: jobmanager_network
     env:
-      RABBITMQ_HOSTNAME: rabbitmq
+      RABBITMQ_HOSTNAME: rabbitmq-tcp.service.consul
       RABBITMQ_USERNAME: admin
       RABBITMQ_PASSWORD: "{{ admin_user_password }}"
+    dns_servers:
+    - "{{ consul_agent_ip }}"
     command: test_script_cc.py
     restart: yes
     detach: no
@@ -22,14 +22,14 @@
   docker_container:
     name: testimage_rpc
     image: inowas/rabbitmq-test
-    networks:
-      - name: jobmanager_network
     env:
-      RABBITMQ_HOSTNAME: agent-jobmanager.node.consul
+      RABBITMQ_HOSTNAME: rabbitmq-tcp.service.consul
       RABBITMQ_USERNAME: admin
-      RABBITMQ_PASSWORD: "{{ admin_user_password }}"
+      RABBITMQ_PASSWORD: "{{ admin_user_password }}" 
+    dns_servers:
+    - "{{ consul_agent_ip }}"
     command: test_script_rpc.py
     restart: yes
     detach: no
     interactive: yes
-    pull: yes
+    pull: yes 

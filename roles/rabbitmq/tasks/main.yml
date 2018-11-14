@@ -1,16 +1,21 @@
+- name: Ensure traefik configuration data is copied to host
+  copy:
+    src: rabbitmq-data/
+    dest: /srv/rabbitmq
+
+
 - name: Ensure rabbitmq start script is copied to host
   template:
     src: start.sh
-    dest: /tmp/start.sh
+    dest: /srv/rabbitmq/start.sh
     mode: u+x
 
 - name: Ensure that rabbitmq_data volume is present
   docker_volume:
     name: rabbitmq_data
 
-- name: Ensure jobmanager network is present
-  docker_network:
-    name: jobmanager_network
+- import_role:
+    name: get_host_ip
 
 - name: Ensure rabbitmq container is started
   docker_container:
@@ -20,9 +25,21 @@
     ports: "{{ port_list }}"
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
-      - /tmp/start.sh:/start.sh
-    networks:
-      - name: jobmanager_network
+      - /srv/rabbitmq:/data
+    env:
+      LISTENERS_SSL: /data/certs/cert.cert 
+      RABBITMQ_SSL_CERT_FILE: /data/certs/server_certificate.pem 
+      RABBITMQ_SSL_KEY_FILE: /data/certs/server_key.pem 
+      RABBITMQ_SSL_CA_FILE: /data/certs/ca_certificate.pem
+      RABBITMQ_SSL_FAIL_IF_NO_PEER_CERT: false 
+      RABBITMQ_SSL_VERIFY: verify_peer
+      SERVICE_5672_NAME: rabbitmq-tcp
+      SERVICE_5671_NAME: rabbitmq-tls
+    labels:
+      host.ip: "{{ host_ip }}"
     state: started
     recreate: yes
-    command: /start.sh
+    command: /data/start.sh
+
+- import_role:
+    name: rabbitmq-test
