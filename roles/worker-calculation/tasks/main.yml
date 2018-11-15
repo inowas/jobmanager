@@ -1,6 +1,11 @@
-- name: Ensure that worker_data volume is present
+- name: Create a volume with options
   docker_volume:
-    name: worker_data
+    name: worker_data_nfs
+    driver: local
+    driver_options:
+      type: nfs
+      device: :/shared
+      o: addr=agent-nfs.{{ consul_node_domain }}
 
 - name: Get amount of cpu cores and calculate amount of workers to start
   shell: grep -c ^processor /proc/cpuinfo
@@ -18,7 +23,7 @@
     state: started
     restart: yes
     volumes:
-    - worker_data:/data
+    - worker_data_nfs:/data
     dns_servers:
     - "{{ consul_agent_ip }}"
     env:

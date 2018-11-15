@@ -2,5 +2,6 @@ docker_proxy: false
 
 consul_agent_type: agent
 consul_service_domain: service.consul
+consul_node_domain: node.consul
 consul_domain: consul
 consul_agent_ip: 169.254.1.1

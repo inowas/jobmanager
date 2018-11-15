@@ -15,6 +15,11 @@
 - set_fact:
     host_ip: "{{hostvars[inventory_hostname]['ansible_ens33']['ipv4']['address']}}"
   when: hostvars[inventory_hostname]['ansible_ens33'] is defined
+
+# aws
+- set_fact:
+    host_ip: "{{hostvars[inventory_hostname]['ansible_ens3']['ipv4']['address']}}"
+  when: hostvars[inventory_hostname]['ansible_ens3'] is defined
 # -----------------------------------------------------------------------
 
 - debug: var=host_ip

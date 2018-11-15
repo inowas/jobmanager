@@ -1,0 +1,1 @@
+ {{mountable_dir}} *(rw,async,no_root_squash)

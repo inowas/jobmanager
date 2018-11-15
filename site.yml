@@ -58,6 +58,7 @@
     tags: always
   - import_role:
       name: nfs
+      tasks_from: server
     tags: nfs
 
 - hosts: jobmanager
@@ -74,6 +75,10 @@
   - include_vars:
       file: credentials.yml
     tags: always
+  - import_role:
+      name: nfs
+      tasks_from: client
+    tags: nfs
   - import_role:
       name: worker-calculation
     tags: worker-calculation

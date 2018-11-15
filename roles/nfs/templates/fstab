@@ -1,0 +1,1 @@
+agent-nfs.{{ consul_node_domain }}:{{ mountable_dir }} {{ mountable_dir }} nfs rw 0 0
