@@ -1,6 +1,0 @@
-dns ansible_host=172.22.1.236 ansible_ssh_user=root
-
-[nodes]
-jobmanager ansible_host=172.22.1.161 ansible_ssh_user=root
-worker-node-1 ansible_host=172.22.1.172 ansible_ssh_user=root
-monitoring ansible_host=172.22.1.233 ansible_ssh_user=root
